@@ -48,7 +48,8 @@
         const inputScan = document.querySelector("#input-scan")
 
         Quagga.onDetected(function (data) {
-            inputScan.value = data.codeResult.code;
+            const { code } = data.codeResult;
+            if(code[0] == "7") location.href=`/lookup.html?cod=${data.codeResult.code}`; 
         });
 
     </script>
