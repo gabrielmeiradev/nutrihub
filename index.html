@@ -15,7 +15,7 @@
             <p class="scan-desc">Aponte a câmera para o código de barras</p>
             <div class="scan" id="camera"></div>
             <p class="scan-desc">ou</p>
-            <input type="text" class="input-scan" placeholder="Digite o código aqui">
+            <input type="text" class="input-scan" id="input-scan" placeholder="Digite o código aqui">
         </div>
         <div class="scan-actions">
             <button class="btn btn-primary">Conferir informações</button>
@@ -44,11 +44,11 @@
             console.log("Initialization finished. Ready to start");
             Quagga.start();
         });
+        
+        const inputScan = document.querySelector("#input-scan")
 
         Quagga.onDetected(function (data) {
-            console.log(data.codeResult.code);
-            alert(data.codeResult.code)
-            // document.querySelector('#resultado').innerText = data.codeResult.code;
+            inputScan.value = data.codeResult.code;
         });
 
     </script>
