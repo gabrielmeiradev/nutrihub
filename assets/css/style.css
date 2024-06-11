@@ -48,9 +48,6 @@ body {
     object-fit: cover;
 }
 
-.drawingBuffer {
-    display: none;
-}
 
 .scan-desc {
     font-size: .75rem;
