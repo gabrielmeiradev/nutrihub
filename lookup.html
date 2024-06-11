@@ -7,21 +7,63 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div id="app" class="text-center">
-        <div class="logo-container">
+    <div id="app">
+        <div class="logo-container text-center">
             <img src="assets/img/logo.svg" class="logo">
         </div>
-        <div class="scan-area">
-            <p class="scan-desc">Aponte a câmera para o código de barras</p>
-            <p class="scan-desc">ou</p>
-            <input type="text" class="input-scan" id="input-scan" placeholder="Digite o código aqui">
+        <div class="product-info">
+            <div class="product-image-container">
+                <img src="" class="product-image" id="product-image"/>
+            </div>
+            <div class="product-info-details">
+                <div class="product-info-detail">
+                    <span class="small-title">Título do produto</span>
+                    <p id="product-title"></p>
+                </div>
+                <div class="product-info-detail">
+                    <span class="small-title">Calorias totais por porção (<span id="serving">25</span><span id="serving-unit">g</span>)</span>
+                    <p id="energy">136kcal</p>
+                </div>
+                <div class="product-info-detail">
+                    <span class="small-title">Calorias totais a cada 100g</span>
+                    <p id="energy-100">544kcal</p>
+                </div>
+            </div>
         </div>
-        <div class="scan-actions">
-            <button class="btn btn-primary">Conferir informações</button>
+        <div class="quantity-input-container">
+            <p class="small-title">Porção total consumida*</p>
+            <div class="quantity-input">
+                <div class="input-with-label consumed-quantity-input">
+                    <span 
+                    class="input" 
+                    role="textbox" 
+                    contenteditable>
+                        20
+                    </span>
+                    <label>g</label>
+                </div>
+                <legend class="small-title">* Digite a porção consumida</legend>
+            </div>
+        </div>
+        <div class="macros">
+            <div class="macro">
+                <h2 class="title">Proteínas</h2>
+                <h2 class="value">2g</h2>
+            </div>
+            <div class="macro">
+                <h2 class="title">Carboidratos</h2>
+                <h2 class="value">13g</h2>
+            </div>
+            <div class="macro">
+                <h2 class="title">Lipídios</h2>
+                <h2 class="value">8,4g</h2>
+            </div>
         </div>
 
+        <button class="btn btn-secondary" id="check-info-btn">Cadastrar no meu diário</button>
     </div>
 
+    <script src="assets/scripts/lookup.js"></script>
     
 </body>
 </html>

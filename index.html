@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div id="app" class="text-center">
+    <div id="app" class="text-center space-between">
         <div class="logo-container">
             <img src="assets/img/logo.svg" class="logo">
         </div>
@@ -18,15 +18,15 @@
             <input type="text" class="input-scan" id="input-scan" placeholder="Digite o código aqui">
         </div>
         <div class="scan-actions">
-            <button class="btn btn-primary">Conferir informações</button>
+            <button class="btn btn-primary" id="check-info-btn">Conferir informações</button>
         </div>
 
     </div>
 
     <script src="assets/scripts/quagga.min.js"></script>
+    <script src="assets/scripts/home.js"></script>
 
     <script>
-
         Quagga.init({
             inputStream: {
                 name: "Live",
@@ -44,12 +44,12 @@
             console.log("Initialization finished. Ready to start");
             Quagga.start();
         });
-        
-        const inputScan = document.querySelector("#input-scan")
 
+        const inputScan = document.querySelector("#input-scan")
+        
         Quagga.onDetected(function (data) {
             const { code } = data.codeResult;
-            if(code[0] == "7") location.href=`/lookup.html?cod=${data.codeResult.code}`; 
+            inputScan.value = data.codeResult.code
         });
 
     </script>
