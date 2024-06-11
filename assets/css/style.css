@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+body {
+    background: #232323;
+    color: #fafafa;
+    font-family: var(--secondary-font);
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-font: "Raleway", sans-serif;
+    --secondary-font: "Inter", sans-serif;
+}
+
+#app {
+    max-width: 375px;
+    width: 100%;
+    padding: 35px 30px;
+    box-sizing: border-box;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.logo {
+    height: 25px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.scan {
+    background: #3A3A3A;
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    border-radius: 55px;
+}
+
+.scan video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.drawingBuffer {
+    display: none;
+}
+
+.scan-desc {
+    font-size: .75rem;
+    font-family: var(--primary-font);
+}
+
+input {
+    width: 100%;
+    background: #3A3A3A;
+    padding: 15px 20px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    color: #fafafa;
+    font-family: var(--secondary-font);
+}
+
+.btn {
+    width: 100%;
+    border: none;
+    padding: 15px 20px;
+    font-family: var(--primary-font);
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .8rem;
+}
+
+.btn-primary {
+    background-color: #25804F;
+    color: #fafafa;
+}
