@@ -27,6 +27,8 @@
     <script src="assets/scripts/home.js"></script>
 
     <script>
+       
+
         Quagga.init({
             inputStream: {
                 name: "Live",
@@ -45,15 +47,29 @@
             Quagga.start();
         });
 
-        const inputScan = document.querySelector("#input-scan")
-        
+        const inputScan = document.querySelector("#input-scan");
+        let detectedCodes = {};
+        let scans = 0;
+
         Quagga.onDetected(function (data) {
-           
-            const { code, format } = data.codeResult;
-            inputScan.value = data.codeResult.code
-            if(format == "ean_13") goToInfoPage(code);
+            const { code, format, score } = data.codeResult;
+
+            detectedCodes[code] = score;
+
+            const mostRecognizedCode = Object.keys(detectedCodes).reduce((a, b) => detectedCodes[a] > detectedCodes[b] ? a : b);
+
+            if(scans > 20) {
+                inputScan.value = mostRecognizedCode;
+                goToInfoPage(mostRecognizedCode)
+            }
+
+            ++scans
         });
 
+        checkInfoBtn.addEventListener("click", () => {
+            const code = inputScan.value;
+            goToInfoPage(code);
+        });
     </script>
 </body>
 </html>

@@ -17,6 +17,24 @@ body {
     --secondary-font: "Inter", sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
+button * {
+    font-size: 1rem !important;
+}
+
+button {
+    border: none;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: auto;
+    background: none;
+    font-family: var(--primary-font);
+}
+
 #app {
     max-width: 600px;
     width: 100%;
@@ -71,16 +89,21 @@ input, .input {
     font-family: var(--secondary-font);
 }
 
+.flex-center {
+    display: flex;
+    align-items: center;
+}
+
 .btn {
-    width: 100%;
-    border: none;
-    padding: 15px 20px;
-    font-family: var(--primary-font);
     border-radius: 40px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: .8rem;
-    margin-top: auto;
+}
+
+.btn-rounded {
+    border-radius: 80px;
+}
+
+.outlined {
+    background: none !important;
 }
 
 .btn-primary {
@@ -91,6 +114,12 @@ input, .input {
 .btn-secondary {
     background-color: #C1ECB8;
     color: #000;
+}
+
+.btn-secondary-outlined {
+    border: 1px solid #C1ECB8;
+    color: #C1ECB8;
+    background: none;
 }
 
 .product-info {

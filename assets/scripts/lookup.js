@@ -19,7 +19,10 @@ let productData = {};
 
 const fetchProductData = async (code) => {
     const response = await fetch(`${OPEN_FOOD_URL_BASE}/${code}`);
-    // console.log(await response.json())
+    if(!response.ok) {
+        alert("Houve um erro ao ler, tente novamente");
+        location.href="/"
+    }
     return response.json();
 };
 
@@ -36,6 +39,7 @@ const updateProductDetails = () => {
     productImageElem.src = productData.image_url;
 
     const serving = productData["serving_quantity"];
+    console.log(nutriments)
     if (serving) {
         servingElem.innerText = serving;
         servingUnitElem.innerText = productData["serving_quantity_unit"];
