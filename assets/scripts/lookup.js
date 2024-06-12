@@ -7,36 +7,76 @@ const productImageElem = document.querySelector("#product-image");
 const servingElem = document.querySelector("#serving");
 const servingUnitElem = document.querySelector("#serving-unit");
 
+const proteinasElem = document.querySelector("#proteinas");
+const carboElem = document.querySelector("#carbo");
+const lipElem = document.querySelector("#lip");
+
+const proteinMacroElem = document.querySelector("#protein-macro");
+const carboMacroElem = document.querySelector("#carbo-macro");
+const lipMacroElem = document.querySelector("#lip-macro");
+
+let productData = {}; 
+
 const fetchProductData = async (code) => {
     const response = await fetch(`${OPEN_FOOD_URL_BASE}/${code}`);
+    // console.log(await response.json())
     return response.json();
 };
 
-const updateProductDetails = (product) => {
-    const productTitle = product.product.product_name;
-    productTitleElem.innerText = productTitle;
+const updateProductDetails = () => {
+    productTitleElem.innerText = productData.product_name;
 
-    const nutriments = product.product.nutriments;
+    const nutriments = productData.nutriments;
     const energyUnit = nutriments["energy-kcal_unit"];
     
     energyElem.innerText = nutriments["energy-kcal"] + energyUnit;
-    energy100Elem.innerText = nutriments["energy-kcal_100g"] + energyUnit;
-    productImageElem.src = product.product.image_url;
+    
+    servingElem.innerText = "100";
+    servingUnitElem.innerText = "g";
+    productImageElem.src = productData.image_url;
 
-    const serving = product.product["serving_quantity"];
+    const serving = productData["serving_quantity"];
     if (serving) {
         servingElem.innerText = serving;
-        servingUnitElem.innerText = product.product["serving_quantity_unit"];
+        servingUnitElem.innerText = productData["serving_quantity_unit"];
         energyElem.innerText = nutriments["energy-kcal_serving"] + energyUnit;
     }
+
+    if(!nutriments["energy-kcal_100g"]) energy100Elem.innerText = nutriments["energy-kcal"] + energyUnit;
+
+    // Display other nutriments
+    proteinasElem.innerText = nutriments["proteins"] + nutriments["proteins_unit"];
+    carboElem.innerText = nutriments["carbohydrates"] + nutriments["carbohydrates_unit"];
+    lipElem.innerText = nutriments["fat"] + nutriments["fat_unit"];
+
+    // Calculate macro nutrient percentages and set width
+    const totalProteins = parseFloat(nutriments["proteins"]);
+    const totalCarbohydrates = parseFloat(nutriments["carbohydrates"]);
+    const totalFat = parseFloat(nutriments["fat"]);
+    const totalMacros = totalProteins + totalCarbohydrates + totalFat;
+
+    const SIZE_SCALAR = 1 * 100
+
+    const proteinPercentage = (totalProteins / totalMacros) * SIZE_SCALAR;
+    const carbPercentage = (totalCarbohydrates / totalMacros) * SIZE_SCALAR;
+    const fatPercentage = (totalFat / totalMacros) * SIZE_SCALAR;
+
+    proteinMacroElem.style.width = proteinPercentage + "%";
+    carboMacroElem.style.width = carbPercentage + "%";
+    lipMacroElem.style.width = fatPercentage + "%";
 };
 
 const loadProduct = async () => {
     const codFromParams = urlParams.get("cod");
-    if(codFromParams == null) return location.href="/"
+    if (codFromParams == null) return location.href = "/"
     if (codFromParams) {
         const product = await fetchProductData(codFromParams);
-        updateProductDetails(product);
+        productData = {
+            product_name: product.product.product_name,
+            image_url: product.product.image_url,
+            nutriments: product.product.nutriments
+        };
+        updateProductDetails();
     }
 };
 

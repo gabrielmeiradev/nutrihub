@@ -13,7 +13,7 @@
         </div>
         <div class="product-info">
             <div class="product-image-container">
-                <img src="" class="product-image" id="product-image"/>
+                <img src="https://cdn.dribbble.com/users/766394/screenshots/2478714/green-loader.gif" class="product-image" id="product-image"/>
             </div>
             <div class="product-info-details">
                 <div class="product-info-detail">
@@ -21,12 +21,12 @@
                     <p id="product-title"></p>
                 </div>
                 <div class="product-info-detail">
-                    <span class="small-title">Calorias totais por porção (<span id="serving">25</span><span id="serving-unit">g</span>)</span>
-                    <p id="energy">136kcal</p>
+                    <span class="small-title">Calorias totais por porção (<span id="serving">0</span><span id="serving-unit">g</span>)</span>
+                    <p id="energy"></p>
                 </div>
                 <div class="product-info-detail">
                     <span class="small-title">Calorias totais a cada 100g</span>
-                    <p id="energy-100">544kcal</p>
+                    <p id="energy-100"></p>
                 </div>
             </div>
         </div>
@@ -46,21 +46,21 @@
             </div>
         </div>
         <div class="macros">
-            <div class="macro">
+            <div class="macro" id="protein-macro">
                 <h2 class="title">Proteínas</h2>
-                <h2 class="value">2g</h2>
+                <h2 class="value" id="proteinas">0g</h2>
             </div>
-            <div class="macro">
+            <div class="macro" id="carbo-macro">
                 <h2 class="title">Carboidratos</h2>
-                <h2 class="value">13g</h2>
+                <h2 class="value" id="carbo">0g</h2>
             </div>
-            <div class="macro">
+            <div class="macro" id="lip-macro">
                 <h2 class="title">Lipídios</h2>
-                <h2 class="value">8,4g</h2>
+                <h2 class="value" id="lip">0g</h2>
             </div>
         </div>
 
-        <button class="btn btn-secondary" id="check-info-btn">Cadastrar no meu diário</button>
+        <button class="btn btn-primary" id="check-info-btn">Cadastrar no meu diário</button>
     </div>
 
     <script src="assets/scripts/lookup.js"></script>

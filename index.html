@@ -48,8 +48,10 @@
         const inputScan = document.querySelector("#input-scan")
         
         Quagga.onDetected(function (data) {
-            const { code } = data.codeResult;
+           
+            const { code, format } = data.codeResult;
             inputScan.value = data.codeResult.code
+            if(format == "ean_13") goToInfoPage(code);
         });
 
     </script>

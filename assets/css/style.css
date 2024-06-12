@@ -18,7 +18,7 @@ body {
 }
 
 #app {
-    max-width: 400px;
+    max-width: 600px;
     width: 100%;
     padding: 35px 30px;
     box-sizing: border-box;
@@ -80,6 +80,7 @@ input, .input {
     cursor: pointer;
     font-weight: 600;
     font-size: .8rem;
+    margin-top: auto;
 }
 
 .btn-primary {
@@ -102,12 +103,12 @@ input, .input {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-    border: 4px solid #C1ECB8;
-    border-radius: 30px;
+    border-radius: 50px;
+    object-position: center;
 }
 
 .product-image-container {
-    width: 40%;
+    width: 35%;
 }
 
 .product-info-details {
@@ -168,20 +169,22 @@ input, .input {
 
 .macro {
     min-width: fit-content;
-    width: 100%;
+    width: 0%;
     display: flex;
     justify-content: space-between;
-    background: #3f3f3f;
+    /* background: linear-gradient(-90deg, rgb(51, 51, 51) 0%, rgba(35,35,35,1) 100%); */
+    background: #C1ECB8;
     padding: 10px 20px;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 40px;
     gap: 20px;
+    transition: .2s ease width;
 }
 
 .macro h2 {
     font-size: 1rem;
     font-weight: 600;
-    color: #C1ECB8;
+    color: #0a0a0a;
 }
 
 .macro .title {
