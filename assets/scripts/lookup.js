@@ -33,6 +33,7 @@ const updateProductDetails = (product) => {
 
 const loadProduct = async () => {
     const codFromParams = urlParams.get("cod");
+    if(codFromParams == null) return location.href="/"
     if (codFromParams) {
         const product = await fetchProductData(codFromParams);
         updateProductDetails(product);
