@@ -15,6 +15,8 @@ const proteinMacroElem = document.querySelector("#protein-macro");
 const carboMacroElem = document.querySelector("#carbo-macro");
 const lipMacroElem = document.querySelector("#lip-macro");
 
+const consumedQuantityInput = document.querySelector("#consumed-quantity-input");
+
 let productData = {}; 
 
 const fetchProductData = async (code) => {
@@ -26,7 +28,10 @@ const fetchProductData = async (code) => {
     return response.json();
 };
 
-const updateProductDetails = () => {
+const updateProductDetails = (consumedQuantity = 100) => {
+    
+    consumedQuantityInput.textContent = consumedQuantity
+
     productTitleElem.innerText = productData.product_name;
 
     const nutriments = productData.nutriments;
@@ -39,7 +44,6 @@ const updateProductDetails = () => {
     productImageElem.src = productData.image_url;
 
     const serving = productData["serving_quantity"];
-    console.log(nutriments)
     if (serving) {
         servingElem.innerText = serving;
         servingUnitElem.innerText = productData["serving_quantity_unit"];
@@ -48,26 +52,27 @@ const updateProductDetails = () => {
 
     if(!nutriments["energy-kcal_100g"]) energy100Elem.innerText = nutriments["energy-kcal"] + energyUnit;
 
-    // Display other nutriments
-    proteinasElem.innerText = nutriments["proteins"] + nutriments["proteins_unit"];
-    carboElem.innerText = nutriments["carbohydrates"] + nutriments["carbohydrates_unit"];
-    lipElem.innerText = nutriments["fat"] + nutriments["fat_unit"];
-
-    // Calculate macro nutrient percentages and set width
-    const totalProteins = parseFloat(nutriments["proteins"]);
-    const totalCarbohydrates = parseFloat(nutriments["carbohydrates"]);
-    const totalFat = parseFloat(nutriments["fat"]);
+    const totalProteins = parseFloat(nutriments["proteins"]) * (consumedQuantity / 100);
+    const totalCarbohydrates = parseFloat(nutriments["carbohydrates"]) * (consumedQuantity / 100);
+    const totalFat = parseFloat(nutriments["fat"]) * (consumedQuantity / 100);
     const totalMacros = totalProteins + totalCarbohydrates + totalFat;
 
-    const SIZE_SCALAR = 1 * 100
+    proteinasElem.innerText = totalProteins.toFixed(1) + nutriments["proteins_unit"];
+    carboElem.innerText = totalCarbohydrates.toFixed(1) + nutriments["carbohydrates_unit"];
+    lipElem.innerText = totalFat.toFixed(1) + nutriments["fat_unit"];
+
+  
+
+    const SIZE_SCALAR = 1 * 100;
 
     const proteinPercentage = (totalProteins / totalMacros) * SIZE_SCALAR;
     const carbPercentage = (totalCarbohydrates / totalMacros) * SIZE_SCALAR;
     const fatPercentage = (totalFat / totalMacros) * SIZE_SCALAR;
 
-    proteinMacroElem.style.width = proteinPercentage + "%";
-    carboMacroElem.style.width = carbPercentage + "%";
-    lipMacroElem.style.width = fatPercentage + "%";
+
+    proteinMacroElem.style.width = `calc(40% + ${proteinPercentage}%)`;
+    carboMacroElem.style.width = `calc(40% + ${carbPercentage}%)`;
+    lipMacroElem.style.width = `calc(40% + ${fatPercentage}%)`
 };
 
 const loadProduct = async () => {
@@ -84,4 +89,11 @@ const loadProduct = async () => {
     }
 };
 
+consumedQuantityInput.addEventListener("input", (e) => {
+    const consumedQuantityText = e.target.textContent.trim();
+    const consumedQuantity = parseFloat(consumedQuantityText);
+    if (!isNaN(consumedQuantity)) {
+        updateProductDetails(consumedQuantity);
+    }
+});
 window.onload = loadProduct;
