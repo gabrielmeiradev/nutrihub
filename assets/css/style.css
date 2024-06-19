@@ -37,7 +37,7 @@ button {
 }
 
 #app {
-    max-width: 600px;
+    max-width: 490px;
     width: 100%;
     padding: 35px 30px;
     box-sizing: border-box;
@@ -220,4 +220,14 @@ input, .input {
 
 .macro .title {
     font-family: var(--primary-font);
+}
+
+.total-consumed-kcal {
+    font-family: var(--primary-font);
+    font-weight: 400;
+    margin: 0;
+}
+
+.total-consumed-kcal .unit {
+    color: #888;
 }
