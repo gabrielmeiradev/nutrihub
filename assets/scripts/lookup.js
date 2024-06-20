@@ -1,4 +1,4 @@
-const OPEN_FOOD_URL_BASE = "https://world.openfoodfacts.net/api/v2/product";
+const OPEN_FOOD_URL_BASE = "https://world.openfoodfacts.org/api/v3/product";
 const urlParams = new URLSearchParams(window.location.search);
 const productTitleElem = document.querySelector("#product-title");
 const energyElem = document.querySelector("#energy");
