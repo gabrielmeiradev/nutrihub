@@ -20,6 +20,14 @@ const totalConsumedKcalElem = document.querySelector("#total-consumed-kcal-value
 const totalConsumedKcalUnitElem = document.querySelector("#total-consumed-kcal-unit");
 
 let productData = {}; 
+const productToSave = {
+    title: "",
+    carbo: "",
+    proteins: "",
+    fat: "",
+    energy: 0,
+    image: ""
+}
 
 const fetchProductData = async (code) => {
     const response = await fetch(`${OPEN_FOOD_URL_BASE}/${code}`);
@@ -38,31 +46,43 @@ const updateProductDetails = (consumedQuantity = 100) => {
     productTitleElem.innerText = productData.product_name;
 
     const nutriments = productData.nutriments;
-    const energyUnit = nutriments["energy-kcal_unit"] || nutriments["energy-kj_unit"];
 
-    energyElem.innerText = nutriments["energy-kcal"] || nutriments["energy-kj"] + energyUnit;
+    const energyValue =  nutriments["energy-kcal"] || nutriments["energy-kj"] / 4.2;
+
+    productToSave.energy = energyValue;
+
+    energyElem.innerText = energyValue + "kcal";
 
     servingElem.innerText = "100";
     servingUnitElem.innerText = "g";
+
     productImageElem.src = productData.image_url;
 
     const serving = productData["serving_quantity"];
     if (serving) {
         servingElem.innerText = serving;
         servingUnitElem.innerText = productData["serving_quantity_unit"];
-        energyElem.innerText = nutriments["energy-kcal_serving"] || nutriments["energy-kj_serving"] + energyUnit;
+        energyElem.innerText = nutriments["energy-kcal_serving"] || nutriments["energy-kj_serving"] / 4.2 + "kcal";
     }
 
-    if (!nutriments["energy-kcal_100g"]) energy100Elem.innerText = nutriments["energy-kcal"] || nutriments["energy-kj"] + energyUnit;
+    if (!nutriments["energy-kcal_100g"]) energy100Elem.innerText = nutriments["energy-kcal"] || nutriments["energy-kj"] / 4.2 + "kcal";
 
     const totalProteins = parseFloat(nutriments["proteins"]) * (consumedQuantity / 100);
     const totalCarbohydrates = parseFloat(nutriments["carbohydrates"]) * (consumedQuantity / 100);
     const totalFat = parseFloat(nutriments["fat"] || nutriments["saturated-fat"]) * (consumedQuantity / 100);
     const totalMacros = totalProteins + totalCarbohydrates + totalFat;
+   
+    const proteins = totalProteins.toFixed(1) + nutriments["proteins_unit"];
+    proteinasElem.innerText = proteins;
+    productToSave.proteins = proteins;
 
-    proteinasElem.innerText = totalProteins.toFixed(1) + nutriments["proteins_unit"];
-    carboElem.innerText = totalCarbohydrates.toFixed(1) + nutriments["carbohydrates_unit"];
-    lipElem.innerText = totalFat.toFixed(1) + (nutriments["fat_unit"] || nutriments["saturated-fat_unit"]);
+    const carbos = totalCarbohydrates.toFixed(1) + nutriments["carbohydrates_unit"];
+    carboElem.innerText = carbos
+    productToSave.carbo = carbos
+
+    const fat = totalFat.toFixed(1) + (nutriments["fat_unit"] || nutriments["saturated-fat_unit"]);
+    lipElem.innerText = fat;
+    productToSave.fat = fat;
 
     const SIZE_SCALAR = 1 * 100;
 
@@ -75,10 +95,12 @@ const updateProductDetails = (consumedQuantity = 100) => {
     lipMacroElem.style.width = `calc(40% + ${fatPercentage}%)`;
 
     // Calculate total consumed calories and update the value and unit separately
-    const totalConsumedCalories = (nutriments["energy-kcal"] || nutriments["energy-kj"]) * (consumedQuantity / 100);
+    const totalConsumedCalories = (nutriments["energy-kcal"] || nutriments["energy-kj"] / 4.2) * (consumedQuantity / 100);
     totalConsumedKcalElem.innerText = formatValue(totalConsumedCalories);
-    totalConsumedKcalUnitElem.innerText = energyUnit;
-    console.log(energyUnit)
+
+    productToSave.energy = totalConsumedCalories;
+    productToSave.title = productData.product_name;
+    productToSave.image = productData.image_url;
 };
 
 const loadProduct = async () => {
@@ -89,7 +111,7 @@ const loadProduct = async () => {
         productData = {
             product_name: product.product.product_name,
             image_url: product.product.image_url,
-            nutriments: product.product.nutriments
+            nutriments: product.product.nutriments,
         };
         updateProductDetails();
     }
@@ -105,11 +127,11 @@ const saveProduct = (product) => {
     savedProducts.push(product);
 
     const toSave = JSON.stringify(savedProducts);
-    console.log(localStorage.getItem(SAVED_PRODUCTS_LOCAL_NAME));
-    return localStorage.setItem(SAVED_PRODUCTS_LOCAL_NAME, toSave);
+    localStorage.setItem(SAVED_PRODUCTS_LOCAL_NAME, toSave);
+    location.href = "/diary.html";
 };
 
-saveProductButton.addEventListener("click", () => saveProduct(productData));
+saveProductButton.addEventListener("click", () => saveProduct(productToSave));
 
 consumedQuantityInput.addEventListener("input", (e) => {
     const consumedQuantityText = e.target.textContent.trim();

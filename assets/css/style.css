@@ -22,11 +22,11 @@ a {
     text-decoration: none;
 }
 
-button * {
+button *, .btn {
     font-size: .8rem !important;
 }
 
-button {
+button, .btn{
     border: none;
     padding: 12px 20px;
     cursor: pointer;
@@ -72,6 +72,11 @@ button {
     object-fit: cover;
 }
 
+.scan-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
 .scan-desc {
     font-size: .75rem;
@@ -195,7 +200,7 @@ input, .input {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin: 15px 0;
+    margin: 20px 0;
 }
 
 .macro {
@@ -252,10 +257,34 @@ input, .input {
     align-items: center;
     width: 100%;
     justify-content: space-between;
+    gap: 5px;
     background: #2F2F2F;
     padding: 25px 30px;
     box-sizing: border-box;
     border-radius: 10px;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.diary-item::before {
+    content: "Clique novamente para apagar";
+    transition: .2s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    backdrop-filter: blur(6px);
+}
+
+.diary-item.delete::before {
+    opacity: 1;
 }
 
 .diary-img-container {
@@ -265,8 +294,9 @@ input, .input {
 .diary-img {
     aspect-ratio: 1/1;
     border-radius: 50%;
-    height: 100%;
-    border: 2px solid #C1ECB8;
+    width: 50px;
+    border: 3px solid #C1ECB8;
+    object-fit: cover;
 }
 
 .diary-product-macros {
@@ -289,7 +319,7 @@ input, .input {
 .diary-product-title {
     font-weight: 500;
     font-family: var(--primary-font);
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     max-height: 100%;
     margin: 0;
 }
@@ -297,9 +327,10 @@ input, .input {
 .diary-total-kcal {
     font-family: var(--secondary-font);
     color: #C1ECB8;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin: 0;
 }
+
 .total-kcal-container {
     position: fixed;
     bottom: 0;
