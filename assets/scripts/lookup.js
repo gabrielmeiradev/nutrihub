@@ -133,7 +133,7 @@ const saveProduct = (product) => {
 
 saveProductButton.addEventListener("click", () => saveProduct(productToSave));
 
-consumedQuantityInput.addEventListener("input", (e) => {
+consumedQuantityInput.addEventListener("blur", (e) => {
     const consumedQuantityText = e.target.textContent.trim();
     const consumedQuantity = parseFloat(consumedQuantityText);
     if (!isNaN(consumedQuantity)) {
