@@ -53,19 +53,24 @@ const updateProductDetails = (consumedQuantity = 100) => {
 
     energyElem.innerText = energyValue + "kcal";
 
-    servingElem.innerText = "100";
+    servingElem.innerText = productData.quantity;
     servingUnitElem.innerText = "g";
 
     productImageElem.src = productData.image_url;
 
     const serving = productData["serving_quantity"];
+
     if (serving) {
         servingElem.innerText = serving;
         servingUnitElem.innerText = productData["serving_quantity_unit"];
-        energyElem.innerText = nutriments["energy-kcal_serving"] || nutriments["energy-kj_serving"] / 4.2 + "kcal";
+        energyElem.innerText = (nutriments["energy-kcal_serving"] || nutriments["energy-kj_serving"] / 4.2) + "kcal";
     }
 
-    if (!nutriments["energy-kcal_100g"]) energy100Elem.innerText = nutriments["energy-kcal"] || nutriments["energy-kj"] / 4.2 + "kcal";
+    energy100Elem.innerText = nutriments["energy-kcal_100g"] + "kcal"
+
+    if (!nutriments["energy-kcal_100g"]) {
+        energy100Elem.innerText = (nutriments["energy-kcal"] || nutriments["energy-kj"] / 4.2) / productData.quantity * 100 + "kcal";
+    }
 
     const totalProteins = parseFloat(nutriments["proteins"]) * (consumedQuantity / 100);
     const totalCarbohydrates = parseFloat(nutriments["carbohydrates"]) * (consumedQuantity / 100);
@@ -95,7 +100,7 @@ const updateProductDetails = (consumedQuantity = 100) => {
     lipMacroElem.style.width = `calc(40% + ${fatPercentage}%)`;
 
     // Calculate total consumed calories and update the value and unit separately
-    const totalConsumedCalories = (nutriments["energy-kcal"] || nutriments["energy-kj"] / 4.2) * (consumedQuantity / 100);
+    const totalConsumedCalories = (nutriments["energy-kcal_100g"] || nutriments["energy-kj"] / 4.2) * (consumedQuantity / 100);
     totalConsumedKcalElem.innerText = formatValue(totalConsumedCalories);
 
     productToSave.energy = totalConsumedCalories;
@@ -111,8 +116,12 @@ const loadProduct = async () => {
         productData = {
             product_name: product.product.product_name,
             image_url: product.product.image_url,
+            quantity: product.product.product_quantity,
             nutriments: product.product.nutriments,
+            serving_quantity: product.product.serving_quantity,
+            serving_quantity_unit: product.product.serving_quantity_unit
         };
+
         updateProductDetails();
     }
 };
